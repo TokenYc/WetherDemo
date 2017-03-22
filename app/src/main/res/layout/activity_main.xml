@@ -7,9 +7,9 @@
     tools:context="com.example.a24706.wetherdemo.MainActivity">
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true">
-        <com.example.a24706.wetherdemo.WeatherView.WeatherView
+        <com.example.a24706.wetherdemo.WeatherView.Weather24HourView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
