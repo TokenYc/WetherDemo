@@ -8,7 +8,9 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:scrollbars="none"
+        >
         <com.example.a24706.wetherdemo.WeatherView.Weather24HourView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

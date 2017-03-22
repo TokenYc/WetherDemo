@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathEffect;
@@ -33,23 +34,24 @@ public class Weather24HourView extends View {
     private int mDashColor = Color.parseColor("#979797");//虚线颜色
     private int mBottomLineColor = Color.parseColor("#dddddd");//底部横线颜色
 
-    private int mStrokeWidth = 4;//折现的线宽度
-    private int mBottomStrokeWidth = 2;//底部线宽度
+    private int mStrokeWidth = Utils.dp2px(getContext(),1);//折现的线宽度
+    private int mBottomStrokeWidth = Utils.dp2px(getContext(),0.5f);//底部线宽度
 
-    private int mCircleRadius = 8;//圆的半径
-    private int mTextSize = 25;//字体大小
+    private int mCircleRadius = Utils.dp2px(getContext(),2);//圆的半径
+    private int mTextSize = Utils.dp2px(getContext(),11f);//字体大小
+    private int mIconSize = Utils.dp2px(getContext(), 20);//图标大小
 
-    private int mLengthPerTem = 5;//每度对应的高度
-    private int mSpaceLength = 150;//两个小时之间的的距离
-    private int mPaddingLeft = 100;//第一个小时与view左边缘的距离
-    private int mPaddingBottom = 150;//底部线与view底部的距离
-    private int mPathMarginBottomLine=140;//折线的最底部与底部横线的距离
-    private int mPaddingTop = 150;//折线的顶部与view顶部的距离
-    private int mTemperatureHeight = 300;//折线部分的高度
-    private int mMarginBottomLine = 50;//时间与底部横线的距离
+    private int mSpaceLength = Utils.dp2px(getContext(),52);//两个小时之间的的距离
+    private int mPaddingLeft = Utils.dp2px(getContext(),35);//第一个小时与view左边缘的距离
+    private int mPaddingBottom = Utils.dp2px(getContext(),34);//底部线与view底部的距离
+    private int mPathMarginBottomLine=Utils.dp2px(getContext(),45);//折线的最底部与底部横线的距离
+    private int mPaddingTop = Utils.dp2px(getContext(),41);//折线的顶部与view顶部的距离
+    private int mTemperatureHeight = Utils.dp2px(getContext(),45);//折线部分的高度
+    private int mMarginBottomLine = Utils.dp2px(getContext(),14);//时间与底部横线的距离
 
-    private int maxTemperature = 20;//最高温度
-    private int minTemperature = 10;//最低温度
+    private int mLengthPerTem;//每度对应的高度
+    private int maxTemperature;//最高温度
+    private int minTemperature;//最低温度
 
     private Paint mLinePaint;//绘制折线的线条
     private Paint mDashPaint;//绘制虚线的线条
@@ -85,15 +87,15 @@ public class Weather24HourView extends View {
         mLengthPerTem = getLengthPerTem();
         mWeatherPath = new Path();
         mDashPath = new Path();
-        BitmapFactory.Options options=new BitmapFactory.Options();
-        options.inSampleSize=2;
-        mBitmapSun = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sun,options);
+        initBitmap();
         initLinePaint();
         initDashPaint();
         initCirclePaint();
         initTextPaint();
         initBottomLinePaint();
     }
+
+
 
 
     @Override
@@ -107,6 +109,17 @@ public class Weather24HourView extends View {
         drawBottomLine(canvas);
     }
 
+    private void initBitmap() {
+//        BitmapFactory.Options options=new BitmapFactory.Options();
+        mBitmapSun = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sun);
+//        int width=options.outWidth;
+//        int height=options.outHeight;
+//        Matrix matrix = new Matrix();
+//        matrix.postScale(mIconSize/width,mIconSize/height);
+//        Log.d("weather", "width====>" + width + "   height====>" + height);
+//        options.inJustDecodeBounds=false;
+//        Bitmap bitmap=BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sun);
+    }
 
     /**
      * 初始化底部横线paint
@@ -280,7 +293,7 @@ public class Weather24HourView extends View {
 //                    Log.d("weather", "center tem=====>" +(centerLeftTemperature + (float) (centerRightTemperature - centerLeftTemperature) / 2));
                     y = mPaddingTop+(maxTemperature-centerTemperature)*mLengthPerTem+((centerTemperature-minTemperature)*mLengthPerTem+mPathMarginBottomLine)/2;
                 }
-                canvas.drawBitmap(mBitmapSun,x-25,y-25,null);
+                canvas.drawBitmap(mBitmapSun,x-mIconSize/2,y-mIconSize/2,null);
                 if (startIndex==0) {
                     drawDash(canvas, datas.get(startIndex).getTemperature(), startIndex);
                 }
@@ -309,7 +322,11 @@ public class Weather24HourView extends View {
     private void drawTime(Canvas canvas, String time, int index) {
         int x = index * mSpaceLength + mPaddingLeft;
         int y = mTemperatureHeight + mPaddingTop + mMarginBottomLine+mPathMarginBottomLine;
-        canvas.drawText(time, x - 30, y, mTextPaint);
+        if (index==0) {
+            canvas.drawText(time, x - Utils.dp2px(getContext(), 12), y, mTextPaint);
+        }else{
+            canvas.drawText(time, x - Utils.dp2px(getContext(), 14), y, mTextPaint);
+        }
     }
 
     /**
