@@ -5,16 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.a24706.wetherdemo.MainActivity">
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:scrollbars="none"
-        >
+        android:scrollbars="none">
+
         <com.example.a24706.wetherdemo.WeatherView.Weather24HourView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </HorizontalScrollView>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="15天天气"
+        android:onClick="onClick15Day"
         />
-        </HorizontalScrollView>
-
 </RelativeLayout>
